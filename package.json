@@ -1,0 +1,16 @@
+{
+  "name": "dingtalk-notify",
+  "version": "1.0.0",
+  "description": "DingTalk notifications for OpenCode - send task updates to your team",
+  "type": "module",
+  "scripts": {
+    "test": "node src/test.ts"
+  },
+  "keywords": [
+    "opencode",
+    "dingtalk",
+    "notification",
+    "plugin"
+  ],
+  "license": "MIT"
+}

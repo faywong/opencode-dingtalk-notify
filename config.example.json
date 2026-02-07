@@ -1,0 +1,18 @@
+{
+  "accessToken": "YOUR_DINGTALK_ROBOT_ACCESS_TOKEN",
+  "secret": "YOUR_DINGTALK_ROBOT_SECRET",
+  "notifyChildSessions": false,
+  "atAll": false,
+  "atMobiles": [],
+  "quietHours": {
+    "enabled": false,
+    "start": "22:00",
+    "end": "08:00"
+  },
+  "events": {
+    "idle": true,
+    "error": true,
+    "permission": true,
+    "question": true
+  }
+}

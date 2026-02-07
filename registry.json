@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ocx.kdco.dev/schema/registry.json",
+  "name": "dingtalk-notify",
+  "description": "DingTalk (钉钉) notifications for OpenCode - send task updates to your team",
+  "components": [
+    {
+      "name": "dingtalk-notify",
+      "description": "Send OpenCode session events to DingTalk group via webhook",
+      "type": "ocx:plugin",
+      "files": [
+        {
+          "path": "src/plugin/dingtalk-notify.ts",
+          "target": "plugin/dingtalk-notify.ts"
+        }
+      ]
+    }
+  ]
+}

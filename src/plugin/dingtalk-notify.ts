@@ -450,7 +450,7 @@ export const DingTalkPlugin: Plugin = async (ctx) => {
             await handleSessionError(
               client as OpencodeClient,
               sessionID,
-              typeof error === "string" ? error : error ? String(error) : undefined,
+              typeof error === "string" ? error : JSON.stringify(error),
               config,
             )
           }

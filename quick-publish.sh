@@ -12,7 +12,6 @@ echo "🚀 快速发布到 faywong-registry..."
 
 # 同步文件
 mkdir -p "$REGISTRY_DIR/dist"
-cp -r "$SOURCE_DIR/src" "$REGISTRY_DIR/dist/" 2>/dev/null || true
 cp "$SOURCE_DIR/package.json" "$REGISTRY_DIR/" 2>/dev/null || true
 cp "$SOURCE_DIR/README.md" "$REGISTRY_DIR/" 2>/dev/null || true
 cp "$SOURCE_DIR/config.example.json" "$REGISTRY_DIR/dist/" 2>/dev/null || true

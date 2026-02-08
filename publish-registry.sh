@@ -152,13 +152,6 @@ sync_files() {
     cp "$SOURCE_DIR/package.json" "$REGISTRY_DIR/" 2>/dev/null || true
     cp "$SOURCE_DIR/README.md" "$REGISTRY_DIR/" 2>/dev/null || true
 
-    # 复制源码到 dist 目录
-    if [ -d "$SOURCE_DIR/src" ]; then
-        rm -rf "$REGISTRY_DIR/dist/src"
-        cp -r "$SOURCE_DIR/src" "$REGISTRY_DIR/dist/"
-        log_success "已同步 src 目录"
-    fi
-
     # 复制配置文件
     if [ -f "$SOURCE_DIR/config.example.json" ]; then
         cp "$SOURCE_DIR/config.example.json" "$REGISTRY_DIR/dist/"

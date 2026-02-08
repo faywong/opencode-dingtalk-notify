@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ocx.kdco.dev/schemas/ocx.json",
+  "registries": {
+    "faywong": {
+      "url": "https://faywong.github.io/faywong-registry"
+    }
+  },
+  "lockRegistries": false,
+  "skipCompatCheck": false
+}

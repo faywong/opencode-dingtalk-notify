@@ -1,0 +1,4 @@
+[submodule "registry"]
+	path = registry
+	url = https://github.com/faywong/faywong-registry.git
+	branch = main

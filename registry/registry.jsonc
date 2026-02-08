@@ -4,9 +4,9 @@
 	// Documentation: https://github.com/kdcokenny/ocx
 
 	"$schema": "https://ocx.kdco.dev/schemas/registry.json",
-	"name": "faywong-registry",
+	"name": "faywong Registry",
 	"namespace": "faywong",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "faywong",
 	"description": "DingTalk notifications for OpenCode - send task updates to your team",
 
@@ -18,8 +18,10 @@
 		{
 			"name": "dingtalk-notify",
 			"type": "ocx:plugin",
+			"version": "1.0.1",
 			"description": "DingTalk (钉钉) notifications for OpenCode - send task updates to your team via webhook",
-			"files": ["plugins/dingtalk-notify/plugin.ts"]
+			"registry": "npm",
+			"package": "opencode-dingtalk-notify"
 		}
 	]
 }

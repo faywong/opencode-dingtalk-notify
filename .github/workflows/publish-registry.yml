@@ -1,0 +1,67 @@
+name: Publish OCX Registry
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      message:
+        description: Commit message
+        required: false
+        default: 'Update OCX registry'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync registry files
+        run: |
+          mkdir -p registry/dist
+          cp -r src/* registry/dist/ 2>/dev/null || true
+          cp package.json registry/ 2>/dev/null || true
+          cp README.md registry/ 2>/dev/null || true
+          cp config.example.json registry/dist/ 2>/dev/null || true
+
+      - name: Update version in registry
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          echo "Version: $VER"
+          sed -i "s/\"version\": \"[0-9.]*\"/\"version\": \"$VER\"/g" registry/registry.jsonc
+
+      - name: Commit registry changes
+        run: |
+          cd registry
+          git init
+          git add -A
+          git commit -m "${{ github.event.inputs.message || 'Update OCX registry' }}" || echo "No changes"
+
+      - name: Push to GitHub Registry
+        uses: ad-m/github-push-action@master
+        with:
+          repository: faywong/faywong-registry
+          directory: registry
+          token: ${{ secrets.GH_TOKEN }}
+          branch: main
+          force: true

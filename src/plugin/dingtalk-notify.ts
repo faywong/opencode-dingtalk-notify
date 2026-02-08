@@ -115,16 +115,31 @@ interface SendMessageOptions {
   atMobiles?: string[]
 }
 
-async function sendDingTalkMessage(options: SendMessageOptions): Promise<void> {
+async function sendDingTalkMessage(
+  client: OpencodeClient,
+  options: SendMessageOptions,
+): Promise<void> {
   const { accessToken, secret, title, content, atAll = false, atMobiles = [] } = options
 
   if (!accessToken) {
-    console.error("[dingtalk-notify] accessToken is not configured")
+    await (client as any).app?.log({
+      body: {
+        service: "dingtalk-notify",
+        level: "error",
+        message: "accessToken is not configured",
+      },
+    }).catch(() => {})
     return
   }
 
   if (!secret) {
-    console.error("[dingtalk-notify] secret is not configured")
+    await (client as any).app?.log({
+      body: {
+        service: "dingtalk-notify",
+        level: "error",
+        message: "secret is not configured",
+      },
+    }).catch(() => {})
     return
   }
 
@@ -170,12 +185,31 @@ async function sendDingTalkMessage(options: SendMessageOptions): Promise<void> {
     const result = await response.json() as { errcode: number; errmsg: string }
 
     if (result.errcode !== 0) {
-      console.error(`[dingtalk-notify] Failed to send message: ${result.errmsg}`)
+      await (client as any).app?.log({
+        body: {
+          service: "dingtalk-notify",
+          level: "error",
+          message: `Failed to send message: ${result.errmsg}`,
+        },
+      }).catch(() => {})
     } else {
-      console.log(`[dingtalk-notify] Message sent successfully: ${title}`)
+      await (client as any).app?.log({
+        body: {
+          service: "dingtalk-notify",
+          level: "info",
+          message: `Message sent successfully: ${title}`,
+        },
+      }).catch(() => {})
     }
   } catch (error) {
-    console.error("[dingtalk-notify] Error sending message:", error)
+    await (client as any).app?.log({
+      body: {
+        service: "dingtalk-notify",
+        level: "error",
+        message: "Error sending message",
+        extra: { error: String(error) },
+      },
+    }).catch(() => {})
   }
 }
 
@@ -321,7 +355,7 @@ async function handleSessionIdle(
 
   const { title, content } = formatSessionIdleMessage(sessionTitle, sessionID)
 
-  await sendDingTalkMessage({
+  await sendDingTalkMessage(client, {
     accessToken: config.accessToken,
     secret: config.secret,
     title,
@@ -359,10 +393,10 @@ async function handleSessionError(
     // Use default title
   }
 
-  const errorMessage = typeof error === "string" ? error : error ? String(error) : undefined
+  const errorMessage = typeof error === "string" ? error : JSON.stringify(error)
   const { title, content } = formatSessionErrorMessage(sessionTitle, sessionID, errorMessage)
 
-  await sendDingTalkMessage({
+  await sendDingTalkMessage(client, {
     accessToken: config.accessToken,
     secret: config.secret,
     title,
@@ -373,6 +407,7 @@ async function handleSessionError(
 }
 
 async function handlePermissionUpdated(
+  client: OpencodeClient,
   config: DingTalkConfig,
 ): Promise<void> {
   if (!config.events.permission) return
@@ -383,7 +418,7 @@ async function handlePermissionUpdated(
 
   const { title, content } = formatPermissionMessage()
 
-  await sendDingTalkMessage({
+  await sendDingTalkMessage(client, {
     accessToken: config.accessToken,
     secret: config.secret,
     title,
@@ -394,6 +429,7 @@ async function handlePermissionUpdated(
 }
 
 async function handleQuestionAsked(
+  client: OpencodeClient,
   config: DingTalkConfig,
 ): Promise<void> {
   if (!config.events.question) return
@@ -403,7 +439,7 @@ async function handleQuestionAsked(
 
   const { title, content } = formatQuestionMessage()
 
-  await sendDingTalkMessage({
+  await sendDingTalkMessage(client, {
     accessToken: config.accessToken,
     secret: config.secret,
     title,
@@ -425,13 +461,19 @@ export const DingTalkPlugin: Plugin = async (ctx) => {
 
   // Validate config
   if (!config.accessToken || !config.secret) {
-    console.warn("[dingtalk-notify] Warning: accessToken or secret not configured. Please set up ~/.config/opencode/dingtalk-notify.json")
+    await (client as any).app?.log({
+      body: {
+        service: "dingtalk-notify",
+        level: "warn",
+        message: "accessToken or secret not configured. Please set up ~/.config/opencode/dingtalk-notify.json",
+      },
+    }).catch(() => {})
   }
 
   return {
     "tool.execute.before": async (input: { tool: string; sessionID: string; callID: string }) => {
       if (input.tool === "question") {
-        await handleQuestionAsked(config)
+        await handleQuestionAsked(client as OpencodeClient, config)
       }
     },
     event: async ({ event }: { event: Event }): Promise<void> => {
@@ -457,7 +499,7 @@ export const DingTalkPlugin: Plugin = async (ctx) => {
           break
         }
         case "permission.updated": {
-          await handlePermissionUpdated(config)
+          await handlePermissionUpdated(client as OpencodeClient, config)
           break
         }
       }

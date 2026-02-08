@@ -1,4 +1,4 @@
-# dingtalk-notify
+# opencode-dingtalk-notify
 
 > 将 OpenCode 的任务状态推送到钉钉群 - 实时掌握 AI 工作进展
 
@@ -22,7 +22,7 @@
 curl -fsSL https://ocx.kdco.dev/install.sh | sh
 
 # 添加插件
-ocx add dingtalk-notify
+ocx add opencode-dingtalk-notify
 ```
 
 ### 方式二：手动安装
@@ -78,7 +78,7 @@ cp src/plugin/dingtalk-notify.ts ~/.config/opencode/plugins/
 
 ## 获取钉钉机器人配置
 
-1. 在钉钉群中创建自定义机器人
+1. 在钉钉群中创建自定义机器人，复制 secret 参数
 2. 复制 webhook 地址中的 `access_token` 参数
 3. 设置安全方式为"加签"，复制密钥
 4. 将这两个值填入配置文件

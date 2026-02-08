@@ -1,6 +1,7 @@
 {
-  "name": "dingtalk-notify",
-  "version": "1.0.0",
+  "name": "opencode-dingtalk-notify",
+  "version": "1.0.1",
+  "author": "faywong",
   "description": "DingTalk notifications for OpenCode - send task updates to your team",
   "type": "module",
   "scripts": {

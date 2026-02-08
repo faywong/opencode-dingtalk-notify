@@ -13,28 +13,17 @@
 - 🌙 **免打扰时段** - 支持设置安静时间
 - 📱 **@指定成员** - 支持 @所有人或指定手机号
 
-## 安装
-
-### 方式一：通过 OCX Registry 安装（推荐）
+## 通过 OCX Registry 安装（推荐）
 
 ```bash
 # 安装 OCX
 curl -fsSL https://ocx.kdco.dev/install.sh | sh
 
 # 添加 faywong registry
-ocx registry add https://your-registry-url.com --name faywong
+ocx registry add https://faywong.github.io/faywong-registry --name faywong
 
 # 安装插件
 ocx add faywong/dingtalk-notify
-```
-
-### 方式二：手动安装
-
-将 `src/plugin/dingtalk-notify.ts` 复制到你的 OpenCode 插件目录：
-
-```bash
-mkdir -p ~/.config/opencode/plugins
-cp src/plugin/dingtalk-notify.ts ~/.config/opencode/plugins/
 ```
 
 ## 配置

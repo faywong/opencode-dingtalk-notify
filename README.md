@@ -15,14 +15,17 @@
 
 ## 安装
 
-### 方式一：通过 OCX 安装（推荐）
+### 方式一：通过 OCX Registry 安装（推荐）
 
 ```bash
 # 安装 OCX
 curl -fsSL https://ocx.kdco.dev/install.sh | sh
 
-# 添加插件
-ocx add opencode-dingtalk-notify
+# 添加 faywong registry
+ocx registry add https://your-registry-url.com --name faywong
+
+# 安装插件
+ocx add faywong/dingtalk-notify
 ```
 
 ### 方式二：手动安装

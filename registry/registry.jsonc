@@ -1,0 +1,25 @@
+{
+	// OCX Registry for opencode-dingtalk-notify plugin
+	// Schema reference: https://ocx.kdco.dev/schema.json
+	// Documentation: https://github.com/kdcokenny/ocx
+
+	"$schema": "https://ocx.kdco.dev/schemas/registry.json",
+	"name": "faywong-registry",
+	"namespace": "faywong",
+	"version": "1.0.0",
+	"author": "faywong",
+	"description": "DingTalk notifications for OpenCode - send task updates to your team",
+
+	// Compatibility versions
+	"opencode": "1.0.0",
+	"ocx": "1.0.16",
+
+	"components": [
+		{
+			"name": "dingtalk-notify",
+			"type": "ocx:plugin",
+			"description": "DingTalk (钉钉) notifications for OpenCode - send task updates to your team via webhook",
+			"files": ["plugins/dingtalk-notify/plugin.ts"]
+		}
+	]
+}
